@@ -1,0 +1,306 @@
+\documentclass{report}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{problem}{Problem}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{assumption}{Assumption}
+\newtheorem{notation}{Notation}
+\newtheorem{claim}{Claim}
+\newtheorem{solution}{Solution}
+
+
+
+\title{Complex Analysis Master Course}
+\author{ Dr Saja Hayajneh \\ Tex by Abdullah Aljazy}
+
+
+
+
+\begin{document}
+\maketitle
+
+
+\tableofcontents
+
+
+
+
+
+
+
+\chapter{First Week}
+
+\section{Lecture 1 \, 12/10/2026}
+
+\begin{definition}
+    the rectangular form of $f: D \subseteq \mathbb{C} \to \mathbb{C}$ is given 
+    by $f(z) = u(x,y) + iv(x,y)$, where 
+    $z = x + iy$ and $u,v: D \subseteq \mathbb{R}^2 \to \mathbb{R}$ are 
+    real-valued functions. 
+\end{definition}
+
+
+\begin{example}
+    Consider the function $f(z) = z^2$. Then $f(z) = (x + iy)^2 = x^2 - y^2 + 2ixy$. Thus, $u(x,y) = x^2 - y^2$ and $v(x,y) = 2xy$.
+\end{example}
+
+
+\begin{definition}
+    the polar form of $f: D \subseteq \mathbb{C} \to \mathbb{C}$ is given 
+    by $f(z) = r e^{i\theta}$, where 
+    $z = r e^{i\theta}$ and $r \geq 0$, $\theta \in [0, 2\pi)$.
+\end{definition}
+
+
+\begin{example}
+    
+    Consider the function $f(z) = z^2$. Then $f(z) = (re^{i\theta})^2 = r^2 e^{i2\theta}$. Thus, the polar form of $f(z)$ is given by $r^2 e^{i2\theta}$.
+\end{example}
+
+
+
+
+\begin{definition}
+    $\lim_{z \to z_0}f(z)=w_0$ if for every $\epsilon > 0$, there exists a $\delta > 0$ such that 
+    $|z - z_0| < \delta$ implies $|f(z) - w_0| < \epsilon$.
+\end{definition}
+
+\begin{remark}
+    $\lim_{(x,y) \to (x_0,y_0)}u(x,y)=u_0$ and $\lim_{(x,y) \to (x_0,y_0)}v(x,y)=v_0$ if and only if $\lim_{z \to z_0}f(z)=w_0$.
+\end{remark}
+
+
+\begin{definition}
+    
+    $f$ is continuous at $z_0$ if $\lim_{z \to z_0}f(z)=f(z_0)$.
+\end{definition}
+
+\begin{definition}
+    
+    $f$ is differentiable at $z_0$ if the limit 
+    \[
+        f'(z_0) = \lim_{z \to z_0} \frac{f(z) - f(z_0)}{z - z_0}
+    \]
+    exists.
+\end{definition}
+
+
+\begin{example}
+    consder the function $f(z) = |z|^2$ use the definition to find the $f'(0)$.
+\end{example}
+
+
+\begin{solution}
+
+    We have $f(z) = |z|^2 = z\bar{z}$. Then 
+    \[
+        f'(0) = \lim_{z \to 0} \frac{f(z) - f(0)}{z - 0} = \lim_{z \to 0} \frac{|z|^2 - 0}{z} = \lim_{z \to 0} \frac{z\bar{z}}{z} = \lim_{z \to 0} \bar{z} = \lim_{(x,y) \to (x_0,y_0)}u(x,y) - i \lim_{(x,y) \to (x_0,y_0)}v(x,y) = 0.
+    \]
+    Thus, $f'(0) = 0$.
+\end{solution}
+
+
+
+
+
+
+
+
+\begin{theorem}
+    Let $f(z) = u(x,y) + iv(x,y)$ be a complex function. Then $f$ is differentiable at $z_0 = x_0 + iy_0$ if and only if the partial derivatives of $u$ and $v$ exist and are continuous in a neighborhood of $(x_0, y_0)$, and satisfy the Cauchy-Riemann equations:
+    \[
+        \frac{\partial u}{\partial x} = \frac{\partial v}{\partial y}, \quad \frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x}.
+    \]
+    
+\end{theorem}
+
+
+
+\begin{example}
+    
+    Consider the function $f(z) = z^2$. Then $f(z) = (x + iy)^2 = x^2 - y^2 + 2ixy$. Thus, $u(x,y) = x^2 - y^2$ and $v(x,y) = 2xy$. We have 
+    \[
+        \frac{\partial u}{\partial x} = 2x, \quad \frac{\partial v}{\partial y} = 2x, \quad \frac{\partial u}{\partial y} = -2y, \quad \frac{\partial v}{\partial x} = 2y.
+    \]
+    Thus, the Cauchy-Riemann equations are satisfied and $f$ is differentiable at every point in $\mathbb{C}$.
+\end{example}
+
+\begin{example}
+    Consider the function $f(z) = \bar{z}$. Then $f(z) = x - iy$. Thus, $u(x,y) = x$ and $v(x,y) = -y$. We have
+    \[
+        \frac{\partial u}{\partial x} = 1, \quad \frac{\partial v}{\partial y} = -1, \quad \frac{\partial u}{\partial y} = 0, \quad \frac{\partial v}{\partial x} = 0.
+    \]
+    Thus, the Cauchy-Riemann equations are not satisfied and $f$ is not differentiable anywhere.
+\end{example}
+
+
+\begin{definition}
+    A function $f$ is said to be an analytic at a point $z_0$ if it is differentiable in a neighborhood of $z_0$. 
+    If $f$ is analytic at every point in a domain $D$, then $f$ is said to be analytic in $D$.
+\end{definition}
+
+
+
+\begin{example}
+    Consider the function $f(z) = |z|^2$ differentiable at $z_0 = 0$ but not analytic at $z_0 = 0$ since it is not differentiable in any neighborhood of $z_0 = 0$.
+\end{example}
+
+\begin{definition}
+    Consider The point $z_0$ is said to be a singular point of $f$ if $f$ is not analytic at $z_0$.and there exists a sequence of points $z_n \to z_0$ such that $f$ is analytic at each $z_n$.
+\end{definition}
+
+\begin{definition}
+    $z_0$ is said to be an isolated singular point of $f$ if $f$ is not analytic at $z_0$ and 
+    there exists a neighborhood of $z_0$ in which $f$ is analytic at every point except $z_0$.
+\end{definition}
+
+
+\begin{remark}
+    the neighborhood of $z_0$ in which $f$ is analytic at every point except $z_0$ is called a punctured neighborhood of $z_0$.
+\end{remark}
+
+\begin{figure}[h]
+    \centering
+    \setlength{\unitlength}{1pt}
+    \begin{picture}(105,55)
+        \put(24,30){\circle{36}}
+        \put(24,30){\circle*{3}}
+        \put(24,30){\line(1,1){12}}
+        \put(35,42){$\gamma$}
+        \put(16,23){$z_0$}
+        \put(8,4){Neighborhood}
+        \put(80,30){\circle{36}}
+        \put(80,30){\circle{4}}
+        \put(80,30){\line(1,1){12}}
+        \put(91,42){$\gamma$}
+        \put(72,23){$z_0$}
+        \put(57,4){Punctured neighborhood}
+    \end{picture}
+    \caption{A neighborhood and a punctured neighborhood of $z_0$}
+\end{figure}
+
+
+\begin{exercise}
+
+    \begin{enumerate}
+        \item Consider the function $f(z) = \frac{1}{z}$. Then $f$ is not analytic at $z_0 = 0$ and there exists a punctured neighborhood of $z_0 = 0$ in which $f$ is analytic at every point except $z_0 = 0$. Thus, $z_0 = 0$ is an isolated singular point of $f$.
+        \item Consider the function $f(z) = \frac{1}{z^2 + 1}$. Then $f$ is not analytic at $z_0 = i$ and $z_0 = -i$ and there exists a punctured neighborhood of $z_0 = i$ and $z_0 = -i$ in which $f$ is analytic at every point except $z_0 = i$ and $z_0 = -i$.
+        \item Consider the function $f(z) = \frac{1}{z^2}$. Then $f$ is not analytic at $z_0 = 0$ and there exists a punctured neighborhood of $z_0 = 0$ in which $f$ is analytic at every point except $z_0 = 0$. Thus, $z_0 = 0$ is an isolated singular point of $f$.
+        \item Consider the function $f(z) = \frac{1}{z^2 + 1}$. Then $f$ is not analytic at $z_0 = i$ and $z_0 = -i$ and there exists a punctured neighborhood of $z_0 = i$ and $z_0 = -i$ in which $f$ is analytic at every point except $z_0 = i$ and $z_0 = -i$. Thus, $z_0 = i$ and $z_0 = -i$ are isolated singular points of $f$.
+        \item Consider the function $f(z) = \frac{1}{\sin(\pi/z)}$. Its singularities at $z=1/n$, $n\in\mathbb{Z}\setminus\{0\}$, accumulate at $0$. Thus, $z=0$ is a non-isolated singular point.
+    
+    \end{enumerate}
+\end{exercise}
+
+
+
+\section{Lecture 2 14/10/2026}
+
+
+
+\begin{example}
+$f(z) = \frac{1}{\sin(\pi/z)}$. Determine whether $z=0$ is a singular point (isolated or not).
+\end{example}
+\begin{solution}
+    The function is not defined at $z=0$. To find its other singularities, solve
+    \[
+        \sin\left(\frac{\pi}{z}\right)=0
+        \quad\Longleftrightarrow\quad
+        \frac{\pi}{z}=n\pi,\qquad n\in\mathbb{Z}.
+    \]
+    Since $z\ne 0$, the solutions are $z=1/n$ for
+    $n\in\mathbb{Z}\setminus\{0\}$. These are poles of $f$, and they
+    accumulate at $0$ because $1/n\to 0$ as $|n|\to\infty$.
+    Consequently, every punctured neighborhood of $0$ contains singularities
+    of $f$. Therefore, $z=0$ is a non-isolated singular point, not an isolated
+    singular point.
+\end{solution}
+
+
+\begin{example}
+    $f(z)=\log z$. Determine whether $z=0$ is an isolated singularity.
+\end{example}
+\begin{solution}
+    The complex logarithm is multivalued: if $z=re^{i\theta}$, then
+    \[
+        \log z=\ln r+i(\theta+2\pi k),\qquad k\in\mathbb{Z}.
+    \]
+    When $z$ travels once around $0$, its argument increases by $2\pi$,
+    so the value of the logarithm changes by $2\pi i$. Thus, no
+    single-valued analytic branch of $\log z$ exists on a full punctured
+    neighborhood of $0$. The point $z=0$ is a branch point (often called a
+    logarithmic branch point), not an isolated singularity in the sense
+    requiring analyticity throughout a punctured neighborhood. A branch
+    such as the principal logarithm is analytic only after a branch cut is
+    removed.
+\end{solution}
+
+\begin{example}
+    Let $f(z)=\operatorname{Log}z$ be the principal logarithm. Determine
+    whether $z=0$ is an isolated singularity.
+\end{example}
+\begin{solution}
+    The principal logarithm is defined by
+    \[
+        \operatorname{Log}z=\ln|z|+i\operatorname{Arg}z,
+        \qquad -\pi<\operatorname{Arg}z<\pi,
+    \]
+    on the slit plane $\mathbb{C}\setminus(-\infty,0]$. It is analytic
+    throughout this domain. However, every disk centered at $0$ meets the
+    branch cut, so there is no full punctured neighborhood of $0$ on which
+    this branch is defined and analytic. Therefore, $z=0$ is not an isolated
+    singularity of the principal logarithm in the standard sense; it is a
+    branch point. As $z\to0$ within the slit plane,
+    $\operatorname{Re}(\operatorname{Log}z)=\ln|z|\to-\infty$.
+\end{solution}
+
+\section{Summary of Examples: Singularities}
+
+\begin{table}[ht]
+    \centering
+    \small
+    \caption{Summary of the functions discussed and their singularity behavior.}
+    \setlength{\tabcolsep}{3pt}
+    \begin{tabular}{|p{1.8cm}|p{1.2cm}|p{2.8cm}|p{5.4cm}|}
+        \hline
+        Function & Point(s) & Classification & Explanation \\ \hline
+        $z^2$ & None & No singularities; entire & It is analytic at every point of $\mathbb{C}$. \\ \hline
+        $\bar z$ & Every point & Not analytic anywhere & It fails the Cauchy--Riemann equations everywhere, so there is no punctured neighborhood on which it is analytic. \\ \hline
+        $|z|^2$ & $0$ & Differentiable at $0$, but not an isolated singularity & It is differentiable at $0$ but not analytic in any neighborhood of $0$. \\ \hline
+        $\dfrac{1}{z}$ & $0$ & Isolated pole (order $1$) & It is analytic in a punctured neighborhood of $0$. \\ \hline
+        $\dfrac{1}{z^2}$ & $0$ & Isolated pole (order $2$) & It is analytic in a punctured neighborhood of $0$. \\ \hline
+        $\dfrac{1}{z^2+1}$ & $i,-i$ & Isolated simple poles & The denominator has simple zeros at $i$ and $-i$; each point has a punctured neighborhood containing no other singularities. \\ \hline
+        $\dfrac{1}{\sin(\pi/z)}$ & $z=1/n$, $n\ne0$; accumulation at $0$ & Each $1/n$ is an isolated simple pole; $0$ is a non-isolated singular point & The poles $1/n$ accumulate at $0$, so no punctured neighborhood of $0$ is free of other singularities. \\ \hline
+        $\log z$ & $0$ & Logarithmic branch point; not an isolated singularity & Analytic continuation once around $0$ changes the logarithm by $2\pi i$, so no single-valued analytic branch exists on a full punctured neighborhood. \\ \hline
+        $\operatorname{Log}z$ (principal branch) & $0$ & Branch point; not an isolated singularity & The principal branch is analytic on the slit plane $\mathbb{C}\setminus(-\infty,0]$, not on a full punctured neighborhood of $0$. \\ \hline
+    \end{tabular}
+\end{table}
+
+\begin{remark}
+    An isolated singularity requires the function to be analytic on a full
+    punctured neighborhood of the point. A branch point such as $0$ for
+    $\log z$ is therefore not an isolated singularity in this sense.
+\end{remark}
+
+
+%%%%%%%%%%%%Integration%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Integration}
+
+\begin{definition}
+    Let $z: [a,b] \to \mathbb{C} $ where $z(t)=x(t)+iy(t)$ Then $\int_{a}^{b}z(t)dt $
+\end{definition}
+
+
+
+
+\end{document}
