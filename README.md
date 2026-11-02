@@ -15,11 +15,13 @@ Dr. Saja Hayajneh. The LaTeX source was typed by Abdullah Aljazy.
 - Cauchy--Riemann equations and analyticity
 - Isolated singularities, poles, non-isolated singularities, and logarithmic
   branch points
+- Complex integration: contours, parametrization, path dependence, primitives,
+  and the ML inequality, with worked examples and TikZ diagrams
 
 ## Build the PDF
 
 Install a LaTeX distribution that includes `pdflatex` and the standard
-`amsmath`, `amsthm`, and `amssymb` packages. From this folder, run:
+`amsmath`, `amsthm`, `amssymb`, `tikz` (PGF), and `float` packages. From this folder, run:
 
 ```sh
 pdflatex -interaction=nonstopmode -halt-on-error complex.tex

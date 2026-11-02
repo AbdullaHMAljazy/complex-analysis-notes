@@ -2,6 +2,22 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage{float}
+% All illustrations are native TikZ; no external image files are needed.
+\tikzset{
+    plane/.style={>=Stealth, font=\small, line cap=round},
+    axis/.style={->, thin, gray!75!black},
+    mapping/.style={->, thick},
+    curve/.style={thick, blue!70!black},
+    imagecurve/.style={thick, orange!80!black},
+    guide/.style={dashed, gray},
+    disk/.style={fill=blue!8, draw=blue!60!black, dashed},
+    excluded/.style={circle, draw=red!75!black, fill=white,
+        inner sep=1.8pt, thick},
+    point/.style={circle, fill=blue!70!black, inner sep=1.6pt}
+}
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
 \newtheorem{definition}{Definition}
@@ -53,11 +69,42 @@
     Consider the function $f(z) = z^2$. Then $f(z) = (x + iy)^2 = x^2 - y^2 + 2ixy$. Thus, $u(x,y) = x^2 - y^2$ and $v(x,y) = 2xy$.
 \end{example}
 
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[plane, scale=1.05]
+        \begin{scope}
+            \draw[axis] (-.5,0)--(2.5,0) node[right] {$x$};
+            \draw[axis] (0,-.4)--(0,2.6) node[above] {$y$};
+            \node[below left] at (0,0) {$0$};
+            \draw[guide] (1,0) node[below] {$1$}--(1,1)--(0,1) node[left] {$1$};
+            \draw[curve,->] (0,0)--(1,1);
+            \node[point,label=above left:{$z=1+i$}] at (1,1) {};
+            \node at (1,-.85) {Input $z$-plane};
+        \end{scope}
+        \draw[mapping] (2.4,1.3)--(4,1.3) node[midway,above] {$w=z^2$};
+        \begin{scope}[xshift=5.5cm]
+            \draw[axis] (-.7,0)--(2,0) node[right] {$u$};
+            \draw[axis] (0,-.4)--(0,2.6) node[above] {$v$};
+            \node[below left] at (0,0) {$0$};
+            \draw[imagecurve,->] (0,0)--(0,2);
+            \node[point,label=right:{$w=2i$}] at (0,2) {};
+            \node[left] at (0,2) {$2$};
+            \node at (.6,-.85) {Output $w$-plane};
+        \end{scope}
+    \end{tikzpicture}
+    \caption{Squaring in rectangular coordinates: $(1+i)^2=0+2i$. The horizontal and vertical coordinates of the image are $u=x^2-y^2$ and $v=2xy$.}
+    \label{fig:square-rectangular}
+\end{figure}
+
+
 
 \begin{definition}
     the polar form of $f: D \subseteq \mathbb{C} \to \mathbb{C}$ is given 
-    by $f(z) = r e^{i\theta}$, where 
-    $z = r e^{i\theta}$ and $r \geq 0$, $\theta \in [0, 2\pi)$.
+    by $f(re^{i\theta})=U(r,\theta)+iV(r,\theta)$, where
+    $z=re^{i\theta}$, $r\geq0$, and $\theta\in[0,2\pi)$.
+    When $f(z)\ne0$, one may also write
+    $f(re^{i\theta})=R(r,\theta)e^{i\Phi(r,\theta)}$, where
+    $R=|f(z)|$ and $\Phi$ is an argument of $f(z)$.
 \end{definition}
 
 
@@ -66,12 +113,38 @@
     Consider the function $f(z) = z^2$. Then $f(z) = (re^{i\theta})^2 = r^2 e^{i2\theta}$. Thus, the polar form of $f(z)$ is given by $r^2 e^{i2\theta}$.
 \end{example}
 
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[plane, scale=.95]
+        \draw[axis] (-.4,0)--(2.8,0) node[right] {$\operatorname{Re}z$};
+        \draw[axis] (0,-.4)--(0,2.7) node[above] {$\operatorname{Im}z$};
+        \draw[curve] (2,0) arc[start angle=0,end angle=35,radius=2];
+        \draw[curve,->] (0,0)--(35:2) node[midway,above left] {$r$};
+        \node[point,label=above:{$re^{i\theta}$}] at (35:2) {};
+        \draw[->] (.65,0) arc[start angle=0,end angle=35,radius=.65];
+        \node at (18:.95) {$\theta$};
+        \draw[mapping] (3,1.3)--(4.3,1.3) node[midway,above] {$z^2$};
+        \begin{scope}[xshift=5.5cm]
+            \draw[axis] (-.4,0)--(2.8,0) node[right] {$\operatorname{Re}w$};
+            \draw[axis] (0,-.4)--(0,2.7) node[above] {$\operatorname{Im}w$};
+            \draw[imagecurve] (2.3,0) arc[start angle=0,end angle=70,radius=2.3];
+            \draw[imagecurve,->] (0,0)--(70:2.3) node[midway,left] {$r^2$};
+            \node[point,label=above right:{$r^2e^{2i\theta}$}] at (70:2.3) {};
+            \draw[->] (.65,0) arc[start angle=0,end angle=70,radius=.65];
+            \node at (35:1) {$2\theta$};
+        \end{scope}
+    \end{tikzpicture}
+    \caption{The map $z\mapsto z^2$ squares the modulus and doubles the argument (modulo $2\pi$). Radial scales in the two panels are schematic.}
+    \label{fig:square-polar}
+\end{figure}
+
+
 
 
 
 \begin{definition}
     $\lim_{z \to z_0}f(z)=w_0$ if for every $\epsilon > 0$, there exists a $\delta > 0$ such that 
-    $|z - z_0| < \delta$ implies $|f(z) - w_0| < \epsilon$.
+    $z\in D$ and $0<|z - z_0| < \delta$ imply $|f(z) - w_0| < \epsilon$.
 \end{definition}
 
 \begin{remark}
@@ -103,10 +176,34 @@
 
     We have $f(z) = |z|^2 = z\bar{z}$. Then 
     \[
-        f'(0) = \lim_{z \to 0} \frac{f(z) - f(0)}{z - 0} = \lim_{z \to 0} \frac{|z|^2 - 0}{z} = \lim_{z \to 0} \frac{z\bar{z}}{z} = \lim_{z \to 0} \bar{z} = \lim_{(x,y) \to (x_0,y_0)}u(x,y) - i \lim_{(x,y) \to (x_0,y_0)}v(x,y) = 0.
+        f'(0)=\lim_{z\to0}\frac{|z|^2}{z}
+        =\lim_{z\to0}\bar z=0,
+        \qquad |\bar z|=|z|\longrightarrow0.
     \]
     Thus, $f'(0) = 0$.
 \end{solution}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[plane]
+        \draw[axis] (-2,0)--(2.4,0) node[right] {$\operatorname{Re}$};
+        \draw[axis] (0,-1.8)--(0,2) node[above] {$\operatorname{Im}$};
+        \draw[guide] (0,0) circle[radius=1.5];
+        \draw[curve,->] (0,0)--(40:1.5);
+        \draw[imagecurve,->] (0,0)--(-40:1.5);
+        \node[point,label=above right:{$z=x+iy$}] at (40:1.5) {};
+        \node[point,label=below right:{$\bar z=x-iy$}] at (-40:1.5) {};
+        \draw[guide] (40:1.5)--(-40:1.5);
+        \node[below left] at (0,0) {$0$};
+        \node[align=left] at (5,1) {$\displaystyle\frac{f(z)-f(0)}{z}=\bar z$\\[6pt]
+            $|\bar z|=|z|$};
+        \node[align=left,text width=4cm] at (5,-.8)
+            {As $z$ approaches $0$ along any path, its reflection $\bar z$ also approaches $0$.};
+    \end{tikzpicture}
+    \caption{For $f(z)=|z|^2$, the difference quotient at $0$ is the reflection $\bar z$, whose distance from $0$ tends to zero. The orange vector represents the quotient, not $f(z)$.}
+    \label{fig:modulus-derivative}
+\end{figure}
+
 
 
 
@@ -116,7 +213,11 @@
 
 
 \begin{theorem}
-    Let $f(z) = u(x,y) + iv(x,y)$ be a complex function. Then $f$ is differentiable at $z_0 = x_0 + iy_0$ if and only if the partial derivatives of $u$ and $v$ exist and are continuous in a neighborhood of $(x_0, y_0)$, and satisfy the Cauchy-Riemann equations:
+    Let $f(z)=u(x,y)+iv(x,y)$ be defined in a neighborhood of
+    $z_0=x_0+iy_0$. Suppose the first partial derivatives of $u$ and $v$
+    exist and are continuous in that neighborhood. Then $f$ is
+    differentiable at $z_0$ if and only if the Cauchy--Riemann equations
+    hold at $(x_0,y_0)$:
     \[
         \frac{\partial u}{\partial x} = \frac{\partial v}{\partial y}, \quad \frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x}.
     \]
@@ -134,6 +235,34 @@
     Thus, the Cauchy-Riemann equations are satisfied and $f$ is differentiable at every point in $\mathbb{C}$.
 \end{example}
 
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[plane,scale=.85]
+        \draw[axis] (-.3,0)--(2.7,0) node[right] {$x$};
+        \draw[axis] (0,-.3)--(0,2.7) node[above] {$y$};
+        \draw[curve] (1,.2)--(1,2.1) node[above] {$x=1$};
+        \draw[imagecurve] (.2,1)--(2.1,1) node[right] {$y=1$};
+        \node[point,label=below left:{$1+i$}] at (1,1) {};
+        \draw[mapping] (3,1.4)--(4.2,1.4) node[midway,above] {$z^2$};
+        \begin{scope}[xshift=6.6cm,scale=.7]
+            \draw[axis] (-2.8,0)--(2.8,0) node[right] {$u$};
+            \draw[axis] (0,-.3)--(0,4.6) node[above] {$v$};
+            \draw[curve,domain=.2:1.85,samples=50,variable=\t]
+                plot ({1-\t*\t},{2*\t});
+            \draw[imagecurve,domain=.2:1.85,samples=50,variable=\t]
+                plot ({\t*\t-1},{2*\t});
+            \draw[guide] (-.75,1.25)--(.75,2.75);
+            \draw[guide] (-.75,2.75)--(.75,1.25);
+            \node[point,label=below right:{$2i$}] at (0,2) {};
+            \node[blue!70!black] at (-2.2,4.4) {$u=1-v^2/4$};
+            \node[orange!80!black] at (2.3,3.7) {$u=v^2/4-1$};
+        \end{scope}
+    \end{tikzpicture}
+    \caption{The perpendicular lines $x=1$ and $y=1$ map to parabolas meeting at $2i$ with perpendicular tangents. Since $f\prime(1+i)=2+2i\ne0$, squaring preserves angles locally there; at $z=0$ the derivative vanishes.}
+    \label{fig:square-cr}
+\end{figure}
+
+
 \begin{example}
     Consider the function $f(z) = \bar{z}$. Then $f(z) = x - iy$. Thus, $u(x,y) = x$ and $v(x,y) = -y$. We have
     \[
@@ -141,6 +270,28 @@
     \]
     Thus, the Cauchy-Riemann equations are not satisfied and $f$ is not differentiable anywhere.
 \end{example}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[plane]
+        \draw[axis] (-1.8,0)--(2,0) node[right] {$\operatorname{Re}h$};
+        \draw[axis] (0,-1.8)--(0,2) node[above] {$\operatorname{Im}h$};
+        \draw[curve,->] (1.5,0)--(.25,0);
+        \draw[imagecurve,->] (0,1.5)--(0,.25);
+        \node[below] at (1.2,0) {$h=t$};
+        \node[left] at (0,1.3) {$h=it$};
+        \node[below left] at (0,0) {$0$};
+        \node[align=left] at (5,1.1)
+            {$\displaystyle\frac{f(z_0+h)-f(z_0)}{h}=\frac{\bar h}{h}$};
+        \node[blue!70!black,align=left] at (5,.1)
+            {Real increments: $\bar h/h=1$};
+        \node[orange!80!black,align=left] at (5,-.7)
+            {Imaginary increments: $\bar h/h=-1$};
+    \end{tikzpicture}
+    \caption{Conjugation reflects the plane across the real axis (as in Figure~\ref{fig:modulus-derivative}). At every $z_0$, real and imaginary increments give different difference quotients, so the complex derivative does not exist.}
+    \label{fig:conjugation}
+\end{figure}
+
 
 
 \begin{definition}
@@ -153,6 +304,25 @@
 \begin{example}
     Consider the function $f(z) = |z|^2$ differentiable at $z_0 = 0$ but not analytic at $z_0 = 0$ since it is not differentiable in any neighborhood of $z_0 = 0$.
 \end{example}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[plane]
+        \draw[disk] (0,0) circle[radius=1.5];
+        \draw[axis] (-2,0)--(2.2,0) node[right] {$x$};
+        \draw[axis] (0,-1.8)--(0,2) node[above] {$y$};
+        \node[point,label=below left:{$0$}] at (0,0) {};
+        \draw[->] (0,0)--(45:1.5) node[midway,above left] {$\delta$};
+        \node[excluded,label=below:{$a=\delta/2$}] at (.75,0) {};
+        \node[align=left,text width=4.4cm] at (5.3,0)
+            {$u=x^2+y^2$, $v=0$.\\[4pt]
+            Cauchy--Riemann: $2x=0$ and $2y=0$.\\[4pt]
+            Only the center is a point of complex differentiability.};
+    \end{tikzpicture}
+    \caption{Every disk about $0$ contains nonzero points such as $a=\delta/2$ where $|z|^2$ is not differentiable. The open marker here denotes such a point, not a point missing from the domain. Hence differentiability at $0$ does not imply analyticity there.}
+    \label{fig:modulus-not-analytic}
+\end{figure}
+
 
 \begin{definition}
     Consider The point $z_0$ is said to be a singular point of $f$ if $f$ is not analytic at $z_0$.and there exists a sequence of points $z_n \to z_0$ such that $f$ is analytic at each $z_n$.
@@ -168,25 +338,27 @@
     the neighborhood of $z_0$ in which $f$ is analytic at every point except $z_0$ is called a punctured neighborhood of $z_0$.
 \end{remark}
 
-\begin{figure}[h]
+
+\begin{figure}[H]
     \centering
-    \setlength{\unitlength}{1pt}
-    \begin{picture}(105,55)
-        \put(24,30){\circle{36}}
-        \put(24,30){\circle*{3}}
-        \put(24,30){\line(1,1){12}}
-        \put(35,42){$\gamma$}
-        \put(16,23){$z_0$}
-        \put(8,4){Neighborhood}
-        \put(80,30){\circle{36}}
-        \put(80,30){\circle{4}}
-        \put(80,30){\line(1,1){12}}
-        \put(91,42){$\gamma$}
-        \put(72,23){$z_0$}
-        \put(57,4){Punctured neighborhood}
-    \end{picture}
-    \caption{A neighborhood and a punctured neighborhood of $z_0$}
+    \begin{tikzpicture}[plane,scale=.95]
+        \foreach \shift in {0,5.5} {
+            \begin{scope}[xshift=\shift cm]
+                \draw[disk] (0,0) circle[radius=1.4];
+                \draw[axis] (-1.9,-.5)--(2,-.5) node[right] {$\operatorname{Re}z$};
+                \draw[axis] (-.6,-1.8)--(-.6,1.9) node[above] {$\operatorname{Im}z$};
+                \draw[->] (0,0)--(40:1.4) node[midway,above left] {$r$};
+            \end{scope}
+        }
+        \node[point,label=below:{$z_0$}] at (0,0) {};
+        \node[excluded,label=below:{$z_0$}] at (5.5,0) {};
+        \node at (0,-2.1) {$|z-z_0|<r$};
+        \node at (5.5,-2.1) {$0<|z-z_0|<r$};
+    \end{tikzpicture}
+    \caption{An open disk and a punctured disk in the complex plane. Dashed boundaries are excluded in both; the hollow center on the right is also excluded.}
+    \label{fig:neighborhoods}
 \end{figure}
+
 
 
 \begin{exercise}
@@ -200,6 +372,30 @@
     
     \end{enumerate}
 \end{exercise}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[plane]
+        \draw[disk] (0,0) circle[radius=1.2];
+        \draw[axis] (-1.7,0)--(1.9,0) node[right] {$\operatorname{Re}z$};
+        \draw[axis] (0,-1.7)--(0,1.9) node[above] {$\operatorname{Im}z$};
+        \node[excluded,label=below left:{$0$}] at (0,0) {};
+        \node[align=center] at (0,-2.2) {$1/z$ and $1/z^2$\\pole orders $1$ and $2$};
+        \begin{scope}[xshift=5.6cm]
+            \draw[disk] (0,1) circle[radius=.65];
+            \draw[disk] (0,-1) circle[radius=.65];
+            \draw[axis] (-1.7,0)--(1.9,0) node[right] {$\operatorname{Re}z$};
+            \draw[axis] (0,-1.8)--(0,1.9) node[above] {$\operatorname{Im}z$};
+            \node[excluded,label=right:{$i$}] at (0,1) {};
+            \node[excluded,label=right:{$-i$}] at (0,-1) {};
+            \node[below left] at (0,0) {$0$};
+            \node[align=center] at (0,-2.2) {$1/(z^2+1)$\\two simple poles};
+        \end{scope}
+    \end{tikzpicture}
+    \caption{Exercises 1--4: each hollow point is an isolated pole. The shaded punctured disks contain no other singularities. For the poles at $\pm i$, radius $r<2$ suffices; the pictured disks have radius less than $1$. The accumulating poles in Exercise 5 are shown in Figure~\ref{fig:accumulating-poles}.}
+    \label{fig:isolated-poles}
+\end{figure}
+
 
 
 
@@ -225,6 +421,33 @@ $f(z) = \frac{1}{\sin(\pi/z)}$. Determine whether $z=0$ is a singular point (iso
     singular point.
 \end{solution}
 
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[plane,x=4cm,y=2.4cm]
+        \draw[disk] (0,0) ellipse[x radius=.42,y radius=.7];
+        \draw[axis] (-1.22,0)--(1.25,0) node[right] {$\operatorname{Re}z$};
+        \draw[axis] (0,-.8)--(0,.95) node[above] {$\operatorname{Im}z$};
+        \foreach \n in {1,...,12} {
+            \node[circle,fill=red!75!black,inner sep=1.25pt] at ({1/\n},0) {};
+            \node[circle,fill=red!75!black,inner sep=1.25pt] at ({-1/\n},0) {};
+        }
+        \foreach \x/\lab in {-1/-1,-.5/-\frac12,.5/\frac12,1/1} {
+            \node[below] at (\x,-.06) {$\lab$};
+        }
+        \node[above] at (.333,.04) {$\frac13$};
+        \node[above] at (-.333,.04) {$-\frac13$};
+        \node[excluded,label=below:{$0$}] at (0,0) {};
+        \draw[->,red!75!black] (.9,.35)--(.12,.35);
+        \draw[->,red!75!black] (-.9,.35)--(-.12,.35);
+        \draw[->] (0,0)--(.297,.495) node[midway,left] {$\delta$};
+        \node[align=center] at (0,-1.15)
+            {$|n|>1/\delta\quad\Longrightarrow\quad 0<|1/n|<\delta$};
+    \end{tikzpicture}
+    \caption{The poles $z=1/n$ approach $0$ from both sides of the real axis. Only finitely many are drawn; infinitely many lie in every punctured disk about $0$, so $0$ is not isolated. The shaded disk illustrates one choice of $\delta$; the inequality applies to every $\delta>0$.}
+    \label{fig:accumulating-poles}
+\end{figure}
+
+
 
 \begin{example}
     $f(z)=\log z$. Determine whether $z=0$ is an isolated singularity.
@@ -244,6 +467,32 @@ $f(z) = \frac{1}{\sin(\pi/z)}$. Determine whether $z=0$ is a singular point (iso
     removed.
 \end{solution}
 
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[plane,scale=.9]
+        \draw[axis] (-1.8,0)--(2,0) node[right] {$\operatorname{Re}z$};
+        \draw[axis] (0,-1.8)--(0,2) node[above] {$\operatorname{Im}z$};
+        \draw[curve] (0,0) circle[radius=1.2];
+        \draw[curve,->] (35:1.2) arc[start angle=35,end angle=140,radius=1.2];
+        \node[excluded,label=below left:{$0$}] at (0,0) {};
+        \node[point,label=below right:{$r$}] at (1.2,0) {};
+        \node at (0,-2.15) {$z(t)=re^{it},\quad 0\leq t\leq2\pi$};
+        \draw[mapping] (2.5,.5)--(4,.5) node[midway,above] {continue $\log$};
+        \begin{scope}[xshift=5.5cm]
+            \draw[axis] (-.6,0)--(2.4,0) node[right] {$\operatorname{Re}w$};
+            \draw[axis] (0,-.5)--(0,2.6) node[above] {$\operatorname{Im}w$};
+            \draw[imagecurve,->] (1,0)--(1,2.1);
+            \node[point,label=below:{$\ln r$}] at (1,0) {};
+            \node[point,label=right:{$\ln r+2\pi i$}] at (1,2.1) {};
+            \draw[guide] (0,2.1) node[left] {$2\pi$}--(1,2.1);
+            \node at (1,-2.15) {$w(t)=\ln r+it$};
+        \end{scope}
+    \end{tikzpicture}
+    \caption{Analytic continuation of a logarithm around $0$ returns to the same input $r$ but changes the output by $2\pi i$. This is a path of continued values, not a single-valued logarithm on the full punctured plane.}
+    \label{fig:log-monodromy}
+\end{figure}
+
+
 \begin{example}
     Let $f(z)=\operatorname{Log}z$ be the principal logarithm. Determine
     whether $z=0$ is an isolated singularity.
@@ -262,6 +511,35 @@ $f(z) = \frac{1}{\sin(\pi/z)}$. Determine whether $z=0$ is a singular point (iso
     branch point. As $z\to0$ within the slit plane,
     $\operatorname{Re}(\operatorname{Log}z)=\ln|z|\to-\infty$.
 \end{solution}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[plane,scale=.9]
+        \fill[blue!8] (-2,-1.7) rectangle (2,1.7);
+        \draw[guide] (0,0) circle[radius=1.15];
+        \draw[axis] (-2,0)--(2.2,0) node[right] {$\operatorname{Re}z$};
+        \draw[axis] (0,-1.8)--(0,2) node[above] {$\operatorname{Im}z$};
+        \draw[red!75!black,line width=2pt] (-2,0)--(0,0);
+        \node[excluded] at (0,0) {};
+        \node[red!75!black,above] at (-1.2,.25) {$\operatorname{Arg}z\to\pi$};
+        \node[red!75!black,below] at (-1.2,-.25) {$\operatorname{Arg}z\to-\pi$};
+        \node at (0,-2.25) {Cut: $(-\infty,0]$};
+        \draw[mapping] (2.6,.7)--(4,.7) node[midway,above] {$\operatorname{Log}$};
+        \begin{scope}[xshift=6.3cm]
+            \fill[blue!8] (-1.5,-1.2) rectangle (1.8,1.2);
+            \draw[axis] (-1.7,0)--(2,0) node[right] {$u$};
+            \draw[axis] (0,-1.8)--(0,2) node[above] {$v$};
+            \draw[red!75!black,dashed,thick] (-1.5,1.2)--(1.8,1.2) node[right] {$\pi$};
+            \draw[red!75!black,dashed,thick] (-1.5,-1.2)--(1.8,-1.2) node[right] {$-\pi$};
+            \node at (.3,.65) {$-\pi<v<\pi$};
+            \draw[imagecurve,->] (.9,-.6)--(-1.3,-.6);
+            \node at (.15,-2.25) {$|z|\to0:\ u=\ln|z|\to-\infty$};
+        \end{scope}
+    \end{tikzpicture}
+    \caption{The principal logarithm maps the slit plane onto the horizontal strip $-\pi<\operatorname{Im}w<\pi$ (both extend beyond the drawing). The red cut and dashed strip edges are excluded. Every disk centered at $0$ meets the cut.}
+    \label{fig:principal-log}
+\end{figure}
+
 
 \section{Summary of Examples: Singularities}
 
@@ -294,13 +572,488 @@ $f(z) = \frac{1}{\sin(\pi/z)}$. Determine whether $z=0$ is a singular point (iso
 
 %%%%%%%%%%%%Integration%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\clearpage
 \section{Integration}
+\label{sec:integration}
+
+Complex integration begins with ordinary real integrals of the real and
+imaginary parts. To integrate along a curve in the complex plane, we then
+parametrize the curve and include its complex tangent vector. Throughout
+this section, curves are oriented: arrows indicate the direction in which
+they are traversed.
+
+\subsection{Complex-valued functions of a real variable}
 
 \begin{definition}
-    Let $z: [a,b] \to \mathbb{C} $ where $z(t)=x(t)+iy(t)$ Then $\int_{a}^{b}z(t)dt $
+    Let $g:[a,b]\to\mathbb C$ have the form $g(t)=u(t)+iv(t)$, where
+    $u$ and $v$ are Riemann integrable real-valued functions. Define
+    \[
+        \boxed{\displaystyle
+        \int_a^b g(t)\,dt
+        =\int_a^b u(t)\,dt+i\int_a^b v(t)\,dt.}
+    \]
+    In particular, this integral exists whenever $g$ is continuous on $[a,b]$.
 \end{definition}
 
+Linearity and the fundamental theorem of calculus apply componentwise.
+For example, if $G:[a,b]\to\mathbb C$ is continuously differentiable, then
+\[
+    \int_a^b G'(t)\,dt=G(b)-G(a).
+\]
+We also have the useful inequality
+\[
+    \left|\int_a^b g(t)\,dt\right|
+    \leq\int_a^b |g(t)|\,dt.
+\]
 
+\begin{example}
+    Evaluate $\displaystyle\int_0^1(t+it^2)\,dt$.
+\end{example}
+\begin{solution}
+    Integrating the two components separately gives
+    \[
+        \int_0^1(t+it^2)\,dt
+        =\left[\frac{t^2}{2}\right]_0^1
+         +i\left[\frac{t^3}{3}\right]_0^1
+        =\frac12+\frac{i}{3}.
+    \]
+    The values $g(t)=t+it^2$ trace a parabolic arc in the complex plane.
+    The integral is a complex number, represented by the vector to
+    $\frac12+\frac{i}{3}$; it is not the length of that arc.
+\end{solution}
 
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[plane,scale=2.4]
+        \draw[axis] (-.12,0)--(1.4,0) node[right] {$\operatorname{Re}$};
+        \draw[axis] (0,-.12)--(0,1.25) node[above] {$\operatorname{Im}$};
+        \draw[curve,domain=0:1,samples=40,variable=\t]
+            plot (\t,{\t*\t});
+        \draw[curve,->,domain=.55:.72,samples=15,variable=\t]
+            plot (\t,{\t*\t});
+        \node[point,label=above right:{$g(1)=1+i$}] at (1,1) {};
+        \node[below left] at (0,0) {$g(0)=0$};
+        \node[blue!70!black,anchor=west] at (1,.65) {$g(t)=t+it^2$};
+        \draw[imagecurve,->] (0,0)--(.5,.33333);
+        \node[orange!80!black,anchor=west] at (.55,.28)
+            {$\displaystyle\int_0^1g(t)\,dt=\frac12+\frac{i}{3}$};
+    \end{tikzpicture}
+    \caption{The blue arc shows the values of the integrand as $t$ increases.
+    The orange vector represents the value of its integral with respect to $t$.}
+    \label{fig:integration-real-parameter}
+\end{figure}
+
+\subsection{Contours and their parametrizations}
+
+\begin{definition}
+    Let $\gamma(t)=x(t)+iy(t)$, $a\leq t\leq b$, where $a<b$.
+    The following terminology describes the path and its parametrization.
+    \begin{enumerate}
+        \item An \emph{arc} (or curve) is a continuous map
+        $\gamma:[a,b]\to\mathbb C$; equivalently, both $x$ and $y$
+        are continuous on $[a,b]$.
+        \item An arc is \emph{simple} if it is injective:
+        $\gamma(t_1)\ne\gamma(t_2)$ whenever $t_1\ne t_2$.
+        Thus it does not cross itself or retrace a point.
+        \item An arc is \emph{closed} if $\gamma(a)=\gamma(b)$.
+        It is \emph{simple closed} if this endpoint identification is
+        the only repetition: $\gamma$ is injective on $[a,b)$.
+        \item A \emph{smooth regular arc} has a continuous derivative
+        $\gamma'(t)=x'(t)+iy'(t)$, with one-sided derivatives at the
+        endpoints, and $\gamma'(t)\ne0$ for $a<t<b$.
+        The nonzero derivative supplies a tangent direction.
+        \item A \emph{contour} is a continuous path consisting of finitely
+        many smooth regular arcs joined end to end; it is also called
+        a piecewise smooth path. Corners at the joins are allowed.
+    \end{enumerate}
+    The initial and terminal points are $\gamma(a)$ and $\gamma(b)$.
+    The orientation is the direction of increasing $t$.
+\end{definition}
+
+\begin{remark}
+    Simplicity and smoothness describe different properties: simplicity
+    concerns repeated points, while smoothness concerns derivatives.
+    A simple closed curve is not injective on the full interval $[a,b]$,
+    because its endpoints must coincide.
+\end{remark}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[plane,scale=.68,font=\footnotesize]
+        \begin{scope}
+            \draw[axis] (-1.5,0)--(1.7,0) node[right] {$x$};
+            \draw[axis] (0,-.4)--(0,1.8) node[above] {$y$};
+            \draw[curve,domain=-1.1:1.1,samples=40,variable=\t]
+                plot (\t,{.3+.8*\t*\t});
+            \draw[curve,->,domain=.4:.7,samples=15,variable=\t]
+                plot (\t,{.3+.8*\t*\t});
+            \node at (0,-.8) {Simple smooth arc};
+        \end{scope}
+        \begin{scope}[xshift=5.5cm]
+            \draw[axis] (-1.5,0)--(1.7,0) node[right] {$x$};
+            \draw[axis] (0,-.4)--(0,1.8) node[above] {$y$};
+            \draw[imagecurve] (-1,.2)--(1,1.4)--(-1,1.4)--(1,.2);
+            \draw[imagecurve,->] (-.8,.32)--(-.4,.56);
+            \draw[imagecurve,->] (.4,1.4)--(-.2,1.4);
+            \draw[imagecurve,->] (-.8,1.28)--(-.4,1.04);
+            \node at (0,-.8) {Self-intersecting contour};
+        \end{scope}
+        \begin{scope}[yshift=-4cm]
+            \draw[axis] (-1.5,0)--(1.7,0) node[right] {$x$};
+            \draw[axis] (0,-1.3)--(0,1.4) node[above] {$y$};
+            \draw[curve] (0,0) circle[radius=1];
+            \draw[curve,->] (40:1) arc[start angle=40,end angle=120,radius=1];
+            \node[point] at (1,0) {};
+            \node at (0,-1.7) {Simple closed curve};
+        \end{scope}
+        \begin{scope}[xshift=5.5cm,yshift=-4cm]
+            \draw[axis] (-1.5,0)--(1.7,0) node[right] {$x$};
+            \draw[axis] (0,-1.3)--(0,1.4) node[above] {$y$};
+            \draw[imagecurve] (-1,-.6)--(.7,-.6)--(.7,1);
+            \draw[imagecurve,->] (-.8,-.6)--(-.2,-.6);
+            \draw[imagecurve,->] (.7,.1)--(.7,.7);
+            \node[point] at (.7,-.6) {};
+            \node at (0,-1.7) {Contour with a corner};
+        \end{scope}
+    \end{tikzpicture}
+    \caption{Four types of paths in the complex plane. A crossing prevents
+    simplicity; a corner prevents a single smooth regular parametrization
+    through that join, but piecewise smooth integration still applies.
+    The dot on the circle marks its common initial and terminal point.}
+    \label{fig:integration-curve-types}
+\end{figure}
+
+Writing $\gamma(t)=x(t)+iy(t)$, we have
+\[
+    \gamma'(t)=x'(t)+iy'(t),\qquad
+    L(\gamma)=\int_a^b|\gamma'(t)|\,dt.
+\]
+For a piecewise smooth contour, the integral for the length is the sum over
+its smooth pieces. Two standard parametrizations will be used repeatedly:
+\begin{itemize}
+    \item The line segment from $z_0$ to $z_1$:
+    \[
+        \gamma(t)=z_0+t(z_1-z_0),\qquad 0\leq t\leq1.
+    \]
+    \item The circle with center $c$ and radius $R>0$, traversed once
+    counterclockwise:
+    \[
+        \gamma(t)=c+Re^{it},\qquad 0\leq t\leq2\pi.
+    \]
+    Restricting the angle interval gives a circular arc. Replacing $e^{it}$
+    by $e^{-it}$ gives clockwise traversal of the full circle.
+\end{itemize}
+
+\subsection{Definition and calculation of a contour integral}
+
+\begin{definition}
+    Let $f$ be continuous on the image of a contour $\gamma:[a,b]\to\mathbb C$.
+    The \emph{contour integral} of $f$ along $\gamma$ is
+    \[
+        \boxed{\displaystyle
+        \int_\gamma f(z)\,dz
+        =\int_a^b f(\gamma(t))\gamma'(t)\,dt.}
+    \]
+    If $\gamma$ has several smooth pieces, compute the integral on each
+    piece and add the results. For a closed contour, we may write
+    $\displaystyle\oint_\gamma f(z)\,dz$.
+\end{definition}
+
+To calculate an integral, choose a parametrization with the required
+orientation, substitute $z=\gamma(t)$ and $dz=\gamma'(t)\,dt$, and evaluate
+the resulting integral over the real parameter interval.
+
+\begin{remark}
+    The factor $\gamma'(t)$ is essential:
+    $\int_a^b f(\gamma(t))\,dt$ is generally not a contour integral.
+    Also, $dz=\gamma'(t)\,dt$ differs from the arc-length element
+    $ds=|\gamma'(t)|\,dt$.
+\end{remark}
+
+For $f=u+iv$ and $z=x+iy$, multiplication gives the equivalent formula
+\[
+    \int_\gamma f(z)\,dz
+    =\int_\gamma (u\,dx-v\,dy)
+     +i\int_\gamma (v\,dx+u\,dy).
+\]
+Here $u$ and $v$ are evaluated at the points $(x(t),y(t))$ of the contour.
+
+\begin{example}
+    Evaluate $\displaystyle\int_\gamma z\,dz$, where $\gamma$ is the
+    straight segment from $0$ to $1+i$.
+\end{example}
+\begin{solution}
+    Set $\gamma(t)=(1+i)t$, $0\leq t\leq1$. Then
+    $\gamma'(t)=1+i$, so
+    \[
+        \int_\gamma z\,dz
+        =\int_0^1 (1+i)t(1+i)\,dt
+        =\int_0^1 2it\,dt=i.
+    \]
+\end{solution}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[plane,scale=2]
+        \draw[axis] (-.2,0)--(1.5,0) node[right] {$x$};
+        \draw[axis] (0,-.2)--(0,1.35) node[above] {$y$};
+        \draw[guide] (1,0) node[below] {$1$}--(1,1)--(0,1) node[left] {$1$};
+        \draw[curve] (0,0)--(1,1);
+        \draw[curve,->] (.35,.35)--(.65,.65);
+        \node[point,label=below left:{$0$}] at (0,0) {};
+        \node[point,label=above right:{$1+i$}] at (1,1) {};
+        \node[anchor=west,align=left] at (1.65,.65)
+            {$z=(1+i)t$\\[4pt]$dz=(1+i)\,dt$\\[4pt]$0\leq t\leq1$};
+    \end{tikzpicture}
+    \caption{A straight contour from $0$ to $1+i$. The arrow fixes the
+    orientation; the complex tangent is the constant $1+i$.}
+    \label{fig:integration-segment}
+\end{figure}
+
+\subsection{Orientation, addition, and a circular contour}
+
+Contour integration is linear in the integrand. It is unchanged by a
+piecewise smooth, orientation-preserving reparametrization of the same
+traversal. If $-\gamma$ denotes the reverse traversal and
+$\gamma_1*\gamma_2$ means first following $\gamma_1$ and then $\gamma_2$
+(with matching endpoints), then
+\[
+    \int_{-\gamma} f(z)\,dz=-\int_\gamma f(z)\,dz,
+    \qquad
+    \int_{\gamma_1*\gamma_2}f(z)\,dz
+    =\int_{\gamma_1}f(z)\,dz+\int_{\gamma_2}f(z)\,dz.
+\]
+
+\begin{example}
+    Evaluate $\displaystyle\oint_{C_R}\frac{1}{z}\,dz$, where
+    $C_R$ is the circle $|z|=R$, $R>0$, traversed once counterclockwise.
+\end{example}
+\begin{solution}
+    Parametrize by $z=Re^{it}$, $0\leq t\leq2\pi$, so that
+    $dz=iRe^{it}\,dt$. Therefore
+    \[
+        \oint_{C_R}\frac{1}{z}\,dz
+        =\int_0^{2\pi}\frac{iRe^{it}}{Re^{it}}\,dt
+        =\int_0^{2\pi}i\,dt=2\pi i.
+    \]
+    Clockwise traversal gives $-2\pi i$. Although $1/z$ is undefined at
+    the center, it is continuous at every point of the contour, so the
+    integral is well-defined. Its value does not depend on $R$.
+\end{solution}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[plane,scale=1.15]
+        \foreach \shift in {0,4.8} {
+            \begin{scope}[xshift=\shift cm]
+                \draw[axis] (-1.6,0)--(1.8,0) node[right] {$x$};
+                \draw[axis] (0,-1.5)--(0,1.65) node[above] {$y$};
+                \node[excluded,label=below left:{$0$}] at (0,0) {};
+                \draw[guide] (0,0)--(35:1.1) node[midway,above left] {$R$};
+            \end{scope}
+        }
+        \draw[curve] (0,0) circle[radius=1.1];
+        \draw[curve,->] (40:1.1) arc[start angle=40,end angle=130,radius=1.1];
+        \node at (0,-1.9) {Counterclockwise: $2\pi i$};
+        \begin{scope}[xshift=4.8cm]
+            \draw[imagecurve] (0,0) circle[radius=1.1];
+            \draw[imagecurve,->] (130:1.1) arc[start angle=130,end angle=40,radius=1.1];
+            \node at (0,-1.9) {Clockwise: $-2\pi i$};
+        \end{scope}
+    \end{tikzpicture}
+    \caption{Reversing a contour reverses the sign of $\int (1/z)\,dz$.
+    The excluded point $0$ lies inside each circle, not on the path.}
+    \label{fig:integration-circle}
+\end{figure}
+
+\subsection{Path dependence and antiderivatives}
+
+\begin{example}
+    Compare $\displaystyle\int_\gamma\bar z\,dz$ along two paths from
+    $0$ to $1+i$: the diagonal segment $\gamma_d$, and the broken path
+    $\gamma_b$ going from $0$ to $1$ and then from $1$ to $1+i$.
+\end{example}
+\begin{solution}
+    On the diagonal, $z=(1+i)t$, $0\leq t\leq1$, and hence
+    \[
+        \int_{\gamma_d}\bar z\,dz
+        =\int_0^1 (1-i)t(1+i)\,dt
+        =\int_0^1 2t\,dt=1.
+    \]
+    On the horizontal part of the broken path, use $z=t$, $0\leq t\leq1$:
+    \[
+        \int_0^1 t\,dt=\frac12.
+    \]
+    On the vertical part, use $z=1+it$, $0\leq t\leq1$, so $dz=i\,dt$:
+    \[
+        \int_0^1 (1-it)i\,dt
+        =\int_0^1(t+i)\,dt=\frac12+i.
+    \]
+    Thus $\int_{\gamma_b}\bar z\,dz=1+i$, whereas
+    $\int_{\gamma_d}\bar z\,dz=1$. The endpoints alone do not determine
+    a contour integral.
+\end{solution}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[plane,scale=2.2]
+        \draw[axis] (-.2,0)--(1.45,0) node[right] {$x$};
+        \draw[axis] (0,-.2)--(0,1.35) node[above] {$y$};
+        \draw[curve] (0,0)--(1,1);
+        \draw[curve,->] (.3,.3)--(.65,.65);
+        \node[blue!70!black,above left] at (.5,.5) {$\gamma_d$};
+        \draw[imagecurve] (0,0)--(1,0)--(1,1);
+        \draw[imagecurve,->] (.25,0)--(.65,0);
+        \draw[imagecurve,->] (1,.25)--(1,.65);
+        \node[orange!80!black,below] at (.5,0) {$\gamma_b$};
+        \node[point,label=below left:{$0$}] at (0,0) {};
+        \node[point,label=below right:{$1$}] at (1,0) {};
+        \node[point,label=above right:{$1+i$}] at (1,1) {};
+        \node[align=left,anchor=west] at (1.6,.65)
+            {$\displaystyle\int_{\gamma_d}\bar z\,dz=1$\\[10pt]
+             $\displaystyle\int_{\gamma_b}\bar z\,dz=1+i$};
+    \end{tikzpicture}
+    \caption{The same endpoints can give different integrals. Following
+    $\gamma_b$ and then the reverse of $\gamma_d$ forms a counterclockwise
+    triangular loop, whose integral of $\bar z$ is $(1+i)-1=i$.}
+    \label{fig:integration-path-dependence}
+\end{figure}
+
+\begin{definition}
+    An \emph{antiderivative} (or \emph{primitive}) of $f$ on an open set
+    $D\subseteq\mathbb C$ is an analytic function $F:D\to\mathbb C$
+    such that $F'(z)=f(z)$ for every $z\in D$.
+\end{definition}
+
+\begin{theorem}[Fundamental theorem for contour integrals]
+    Suppose $f$ is continuous on an open set $D$ and has a primitive $F$
+    there. For every contour $\gamma:[a,b]\to D$,
+    \[
+        \boxed{\displaystyle
+        \int_\gamma f(z)\,dz=F(\gamma(b))-F(\gamma(a)).}
+    \]
+    Consequently, the integral depends only on the endpoints, and the
+    integral around every closed contour in $D$ is zero.
+\end{theorem}
+\begin{proof}
+    On each smooth piece the chain rule gives
+    $(F\circ\gamma)'(t)=F'(\gamma(t))\gamma'(t)
+    =f(\gamma(t))\gamma'(t)$. Integrating and adding the endpoint
+    differences over the pieces proves the formula.
+\end{proof}
+
+\begin{example}
+    Evaluate $\displaystyle\int_\gamma z\,dz$ along any contour from
+    $0$ to $1+i$, and compare with the straight-segment calculation.
+\end{example}
+\begin{solution}
+    The function $F(z)=z^2/2$ is a primitive of $z$ on all of $\mathbb C$.
+    Therefore, regardless of the chosen contour,
+    \[
+        \int_\gamma z\,dz=\frac{(1+i)^2}{2}-0=i.
+    \]
+    This agrees with the earlier parametrization. In particular, the
+    diagonal and broken paths in Figure~\ref{fig:integration-path-dependence}
+    both give $i$ for this integrand, even though they give different values
+    for the integrand $\bar z$.
+\end{solution}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[plane,scale=2.1]
+        \draw[axis] (-.2,0)--(1.5,0) node[right] {$x$};
+        \draw[axis] (0,-.2)--(0,1.55) node[above] {$y$};
+        \draw[curve] (0,0)--(1,1);
+        \draw[curve,->] (.35,.35)--(.65,.65);
+        \draw[imagecurve,->] (0,0) .. controls (-.12,1.25) and (.35,1.4) .. (1,1);
+        \draw[thick,dashed,->] (0,0)--(1,0)--(1,1);
+        \node[point,label=below left:{$0$}] at (0,0) {};
+        \node[point,label=above right:{$1+i$}] at (1,1) {};
+        \node[anchor=west,align=left] at (1.65,.65)
+            {$F(z)=z^2/2$\\[5pt]
+             $\displaystyle\int_\gamma z\,dz=F(1+i)-F(0)=i$};
+    \end{tikzpicture}
+    \caption{A primitive makes the integral independent of the path.
+    All three paths give the same integral of $z$, because $z^2/2$ is
+    defined and analytic throughout the plane.}
+    \label{fig:integration-primitive}
+\end{figure}
+
+\begin{remark}
+    Analyticity on a domain alone does not guarantee a primitive on that
+    entire domain. The function $1/z$ is analytic on
+    $\mathbb C\setminus\{0\}$, but its integral around $C_R$ is $2\pi i$,
+    so it has no primitive there. On the slit plane
+    $\mathbb C\setminus(-\infty,0]$, however, $\operatorname{Log}z$ is a
+    primitive of $1/z$. A full circle around $0$ is not contained in this
+    slit plane, so the endpoint formula using $\operatorname{Log}$ cannot
+    be applied to that circle.
+\end{remark}
+
+\subsection{Estimating integrals: the ML inequality}
+
+\begin{theorem}[ML inequality]
+    Let $f$ be continuous on a contour $\gamma$ of length $L$. If
+    $|f(z)|\leq M$ at every point of the contour, then
+    \[
+        \boxed{\displaystyle\left|\int_\gamma f(z)\,dz\right|\leq ML.}
+    \]
+\end{theorem}
+\begin{proof}
+    Using the parametrized integral and the triangle inequality gives
+    \[
+        \left|\int_\gamma f(z)\,dz\right|
+        \leq\int_a^b |f(\gamma(t))|\,|\gamma'(t)|\,dt
+        \leq M\int_a^b|\gamma'(t)|\,dt=ML.
+    \]
+\end{proof}
+
+\begin{example}
+    Find an upper bound for
+    $\displaystyle\left|\int_\gamma\frac{1}{z-2}\,dz\right|$,
+    where $\gamma(t)=e^{it}$, $0\leq t\leq\pi$, is the upper unit
+    semicircle from $1$ to $-1$.
+\end{example}
+\begin{solution}
+    On $\gamma$, $|z|=1$, so the reverse triangle inequality gives
+    \[
+        |z-2|\geq 2-|z|=1,
+        \qquad \left|\frac{1}{z-2}\right|\leq1.
+    \]
+    We may take $M=1$. Since $|\gamma'(t)|=|ie^{it}|=1$, the length is
+    $L=\int_0^\pi1\,dt=\pi$. Hence
+    \[
+        \left|\int_\gamma\frac{1}{z-2}\,dz\right|\leq\pi.
+    \]
+    This is an estimate, not a claim that the integral has modulus $\pi$.
+\end{solution}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[plane,scale=1.8]
+        \draw[axis] (-1.45,0)--(2.55,0) node[right] {$x$};
+        \draw[axis] (0,-.3)--(0,1.45) node[above] {$y$};
+        \draw[curve] (1,0) arc[start angle=0,end angle=180,radius=1];
+        \draw[curve,->] (45:1) arc[start angle=45,end angle=115,radius=1];
+        \node[point,label=below:{$1$}] at (1,0) {};
+        \node[point,label=below:{$-1$}] at (-1,0) {};
+        \node[below left] at (0,0) {$0$};
+        \node[excluded,label=below:{$2$}] at (2,0) {};
+        \node[point,label=above right:{$z$}] at (55:1) {};
+        \draw[guide] (55:1)--(2,0) node[midway,above right] {$|z-2|\geq1$};
+        \draw[imagecurve] (1,-.35)--(2,-.35) node[midway,below] {distance $1$};
+        \node[blue!70!black,above left] at (-.55,.9) {$L=\pi$};
+    \end{tikzpicture}
+    \caption{The pole at $2$ stays at least distance $1$ from the upper
+    unit semicircle. This controls the size of the integrand, while the
+    arc length supplies the other factor in the ML bound.}
+    \label{fig:integration-ml}
+\end{figure}
+
+\noindent
+When working with a new contour integral, first check the path and its
+orientation, and check that the integrand is defined on the path. Then
+choose between direct parametrization, a primitive valid on a domain
+containing the whole path, or an ML estimate if only a bound is needed.
 
 \end{document}
